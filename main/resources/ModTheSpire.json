@@ -1,0 +1,10 @@
+{
+  "modid": "ExampleMod",
+  "name": "事例Mod",
+  "author_list": ["REME"],
+  "description": "作为教程的mod。",
+  "version": "0.0.1",
+  "sts_version": "12-22-2024",
+  "mts_version": "3.23.2",
+  "dependencies": ["basemod"]
+}

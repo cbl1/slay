@@ -1,0 +1,7 @@
+{
+  "ExampleMod:Strike": {
+    "NAME": "猛击高玩",
+    "DESCRIPTION": "造成 !D! 点伤害。",
+    "UPGRADE_DESCRIPTION": " 固有 。 NL 造成 !D! 点伤害。"
+  }
+}
