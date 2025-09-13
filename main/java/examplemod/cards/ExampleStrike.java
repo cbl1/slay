@@ -8,6 +8,7 @@ import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.localization.CardStrings;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
+import examplemod.actions.ExampleAction;
 import examplemod.helper.ModHelper;
 
 // 这段代码不能编译
@@ -44,17 +45,9 @@ public class ExampleStrike extends CustomCard {
 
     @Override
     public void use(AbstractPlayer p, AbstractMonster m) {
-        AbstractDungeon.actionManager.addToBottom(
-                new DamageAction(
-                        m,
-                        new DamageInfo(
-                                p,
-                                damage,
-                                DamageInfo.DamageType.NORMAL
-                        )
-                )
-        );
+        this.addToBot(new ExampleAction(m, new DamageInfo(p, this.damage, DamageInfo.DamageType.NORMAL)));
     }
+
 
 }
 
