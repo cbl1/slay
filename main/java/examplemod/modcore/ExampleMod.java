@@ -10,6 +10,7 @@ import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.localization.*;
 import examplemod.cards.ExampleStrike;
+import examplemod.characters.Alter;
 import examplemod.characters.MyCharacter;
 import examplemod.relics.MyRelic;
 
@@ -18,12 +19,15 @@ import java.nio.charset.StandardCharsets;
 import static com.megacrit.cardcrawl.core.Settings.language;
 import static examplemod.characters.MyCharacter.PlayerColorEnum.EXAMPLE_GREEN;
 import static examplemod.characters.MyCharacter.PlayerColorEnum.MY_CHARACTER;
+import static examplemod.characters.Alter.PlayerColorEnum.Alter_Red;
+import static examplemod.characters.Alter.PlayerColorEnum.MY_CHARACTER2;
 
 @SpireInitializer
 public class ExampleMod implements EditCardsSubscriber, EditStringsSubscriber, EditCharactersSubscriber, EditRelicsSubscriber, EditKeywordsSubscriber { // 实现接口
     private static final String MY_CHARACTER_BUTTON = "ExampleModResources/img/char/Character_Button.png";
     // 人物选择界面的立绘
     private static final String MY_CHARACTER_PORTRAIT = "ExampleModResources/img/char/Character_Portrait.png";
+    private static final String MY_CHARACTER_PORTRAIT2 = "ExampleModResources/img/alter/Character_Portrait.png";
     // 攻击牌的背景（小尺寸）
     private static final String BG_ATTACK_512 = "ExampleModResources/img/512/bg_attack_512.png";
     // 能力牌的背景（小尺寸）
@@ -43,9 +47,11 @@ public class ExampleMod implements EditCardsSubscriber, EditStringsSubscriber, E
     // 小尺寸的能量图标（战斗中，牌堆预览）
     private static final String ENEYGY_ORB = "ExampleModResources/img/char/cost_orb.png";
     public static final Color MY_COLOR = new Color(236.0F / 255.0F, 192.0F / 255.0F, 170.0F / 255.0F, 1.0F);
+    public static final Color Al_Color = new Color(231.0F / 255.0F, 192.0F / 255.0F, 170.0F / 255.0F, 1.0F);
     public ExampleMod() {
         BaseMod.subscribe(this); // 告诉basemod你要订阅事件
         BaseMod.addColor(EXAMPLE_GREEN, MY_COLOR, MY_COLOR, MY_COLOR, MY_COLOR, MY_COLOR, MY_COLOR, MY_COLOR,BG_ATTACK_512,BG_SKILL_512,BG_POWER_512,ENEYGY_ORB,BG_ATTACK_1024,BG_SKILL_1024,BG_POWER_1024,BIG_ORB,SMALL_ORB);
+        BaseMod.addColor(Alter_Red, Al_Color, Al_Color, Al_Color, Al_Color, Al_Color, Al_Color, Al_Color,BG_ATTACK_512,BG_SKILL_512,BG_POWER_512,ENEYGY_ORB,BG_ATTACK_1024,BG_SKILL_1024,BG_POWER_1024,BIG_ORB,SMALL_ORB);
     }
 
     public static void initialize() {
@@ -55,6 +61,7 @@ public class ExampleMod implements EditCardsSubscriber, EditStringsSubscriber, E
     public void receiveEditCharacters() {
         // 向basemod注册人物
         BaseMod.addCharacter(new MyCharacter(CardCrawlGame.playerName), MY_CHARACTER_BUTTON, MY_CHARACTER_PORTRAIT, MY_CHARACTER);
+        BaseMod.addCharacter(new Alter(CardCrawlGame.playerName), MY_CHARACTER_BUTTON, MY_CHARACTER_PORTRAIT2, MY_CHARACTER2);
     }
     // 当basemod开始注册mod卡牌时，便会调用这个函数
     @Override
@@ -77,7 +84,7 @@ public class ExampleMod implements EditCardsSubscriber, EditStringsSubscriber, E
         BaseMod.loadCustomStringsFile(CardStrings.class, "ExampleModResources/localization/" + lang + "/cards.json"); // 加载相应语言的卡牌本地化内容。
         BaseMod.loadCustomStringsFile(CharacterStrings.class, "ExampleModResources/localization/" + lang + "/characters.json");
         BaseMod.loadCustomStringsFile(RelicStrings.class, "ExampleModResources/localization/" + lang + "/relics.json");
-        BaseMod.loadCustomStringsFile(PowerStrings.class, "ExampleResources/localization/" + lang + "/powers.json");
+        BaseMod.loadCustomStringsFile(PowerStrings.class, "ExampleModResources/localization/" + lang + "/powers.json");
 
         // 如果是中文，加载的就是"ExampleResources/localization/ZHS/cards.json"
     }
@@ -85,12 +92,12 @@ public class ExampleMod implements EditCardsSubscriber, EditStringsSubscriber, E
     @Override
     public void receiveEditKeywords() {
         Gson gson = new Gson();
-        String lang = "eng";
+        String lang = "ENG";
         if (language == Settings.GameLanguage.ZHS) {
-            lang = "zhs";
+            lang = "ZHS";
         }
 
-        String json = Gdx.files.internal("ExampleModResources/localization/Keywords_" + lang + ".json")
+        String json = Gdx.files.internal("ExampleModResources/localization/" + lang + "/keywords.json")
                 .readString(String.valueOf(StandardCharsets.UTF_8));
         Keyword[] keywords = gson.fromJson(json, Keyword[].class);
         if (keywords != null) {
